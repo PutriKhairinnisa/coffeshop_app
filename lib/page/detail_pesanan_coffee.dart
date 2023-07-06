@@ -1,0 +1,145 @@
+import 'package:coffeshop_app/model/pesanan.dart';
+import 'package:coffeshop_app/page/edit_pesanan_coffee.dart';
+import 'package:flutter/material.dart';
+import '../model/product.dart';
+
+class DetailPesananCoffee extends StatefulWidget {
+  final Product product;
+  final Pesanan pesanan;
+  const DetailPesananCoffee(
+      {super.key, required this.pesanan, required this.product});
+
+  @override
+  State<DetailPesananCoffee> createState() => _DetailPesananCoffeeState();
+}
+
+class _DetailPesananCoffeeState extends State<DetailPesananCoffee> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Detail Pesanan"),
+      ),
+      body: Card(
+        child: Column(children: [
+          ListTile(
+            leading: Image.asset("${widget.product.img}"),
+            title: Text("${widget.product.namaProduct}"),
+            subtitle: Text("Rp. " + "${widget.product.price}"),
+          ),
+          Container(
+            margin: EdgeInsets.all(20),
+            child: Column(children: [
+              Text("Rincian Pesanan"),
+              SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("Nama Product :"),
+                  Text("${widget.product.namaProduct}")
+                ],
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("Harga :"),
+                  Text("Rp. ${widget.product.price}K"),
+                  // Text("Rp. ${widget.product.toping[0]['toping']}")
+                ],
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [Text("Banyak :"), Text("${widget.pesanan.banyak}")],
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Total Bayar :",
+                    style: TextStyle(fontWeight: FontWeight.w800),
+                  ),
+                  Text(
+                    "Rp. ${widget.pesanan.totalBayar}K",
+                    style: TextStyle(fontWeight: FontWeight.w800),
+                  )
+                ],
+              ),
+              SizedBox(
+                height: 25,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  // menampilkan tombol hapus dengan menggunakan method tombolHapus()
+                  tombolHapus(),
+                  // menampilkan tombol edit dengan menggunakan method tombolEdit()
+                  tombolEdit(),
+                ],
+              ),
+            ]),
+          )
+        ]),
+      ),
+    );
+  }
+
+  //
+
+  // method tombol Hapus pesanan cofee
+  ElevatedButton tombolHapus() {
+    return ElevatedButton(
+      onPressed: () {},
+      child: Text("Hapus"),
+    );
+  }
+
+  // method tombol Edit pesanan cofee
+  ElevatedButton tombolEdit() {
+    return ElevatedButton(
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => EditPesananCoffee(
+              pesanan: Pesanan(
+                  banyak: widget.pesanan.banyak,
+                  totalBayar: widget.pesanan.totalBayar),
+              product: Product(
+                  img: widget.product.img,
+                  namaProduct: widget.product.namaProduct,
+                  toping: widget.product.toping,
+                  price: widget.product.price),
+            ),
+          ),
+        );
+      },
+      child: Text(
+        "Edit",
+        style: TextStyle(color: Colors.brown),
+      ),
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all<Color>(
+          Colors.white,
+        ),
+        side: MaterialStateProperty.all<BorderSide>(
+          BorderSide(
+              width: 1, color: Colors.brown), // Atur lebar dan warna border
+        ), // Ganti warna latar belakang di sini
+      ),
+    );
+  }
+}
